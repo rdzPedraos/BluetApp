@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import Control from '@screens/Control';
+import Control from '@/screens/Control';
 
 export default function App() {
     useEffect(() => {
