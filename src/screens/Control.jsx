@@ -2,8 +2,14 @@ import { StyleSheet, View } from 'react-native';
 import JoyStick from '@/components/JoyStick';
 import ControlLever from '@/components/ControlLever';
 import { COLORS } from '@/constants';
+import { motorsUtils } from '@/utils';
 
 export default function Control() {
+    const onChangeCoordinantes = (vector) => {
+        const values = motorsUtils.getMapByVector(vector, 100);
+        console.log(values);
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.section}>
@@ -12,8 +18,8 @@ export default function Control() {
 
             </View>
 
-            <View style={{ ...styles.background, ...styles.section }}>
-                <JoyStick size={200} color={COLORS.PRIMARY} />
+            <View style={[styles.section, { backgroundColor: COLORS.SECONDARY }]}>
+                <JoyStick radius={100} color={COLORS.PRIMARY} onMove={onChangeCoordinantes} />
             </View>
         </View>
     );
@@ -28,12 +34,7 @@ const styles = StyleSheet.create({
 
     section: {
         flex: 1,
-
         alignItems: 'center',
         justifyContent: 'center',
-    },
-
-    background: {
-        backgroundColor: '#f0f0f0',
     }
 });
