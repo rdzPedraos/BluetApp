@@ -5,26 +5,22 @@ import { useJoystickHook } from '@/hooks';
 export default function JoyStick({
     radius = 100,
     color = '#000',
-    debug = true,
+    addDebug = false,
 }) {
-    const { containerReference, joystickPosition, panResponder, info } = useJoystickHook(radius, debug);
+    const { position, debug, render } = useJoystickHook(radius, addDebug);
     const styles = useMemo(() => generateStyles(radius, color), [radius, color]);
 
     const movementStyles = useMemo(() => {
-        return { transform: [{ translateX: joystickPosition.x }, { translateY: joystickPosition.y }] };
-    }, [joystickPosition]);
+        return { transform: [{ translateX: position.x }, { translateY: position.y }] };
+    }, [position]);
 
     return (
-        <View style={styles.container} {...panResponder.panHandlers}>
-            {/* Base del joystick */}
-            <View style={styles.base} ref={containerReference} />
-
-            {/* Joystick */}
+        <View style={styles.base} {...render}>
             <View style={[styles.joystick, movementStyles]} />
 
-            {info && (
+            {debug && (
                 <View style={{ position: 'absolute', backgroundColor: '#f0f0f055' }}>
-                    <Text>{JSON.stringify(info, null, 2)}</Text>
+                    <Text>{JSON.stringify(debug, null, 2)}</Text>
                 </View>
             )}
         </View>
@@ -36,10 +32,8 @@ const generateStyles = (radius, color) => {
     const joystickSize = radius;
 
     return StyleSheet.create({
-        container: {
-            position: 'relative',
-        },
         base: {
+            position: 'relative',
             width: baseSize,
             height: baseSize,
             borderRadius: baseSize,

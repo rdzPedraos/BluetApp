@@ -1,40 +1,47 @@
 import { useRef, useState } from 'react';
-import { PanResponder } from 'react-native';
 import { joystickUtils } from '@/utils';
 
-export function useJoystickHook(radius, debug) {
+export function useJoystickHook(radius, addDebug = false) {
     const containerReference = useRef();
-    const [info, setInfo] = debug ? useState(null) : [null, null];
-    const [joystickPosition, setJoystickPosition] = useState({ x: 0, y: 0 });
+    const [debug, setDebug] = addDebug ? useState(null) : [null, null];
+    const [position, setPosition] = useState({ x: 0, y: 0 });
 
-    const handleMove = (_, gestureState) => {
+    const handleMove = (event) => {
         // Get the coordinates of the joystick movement on the screen
-        const { moveX, moveY } = gestureState;
+        const position = {
+            x: event.nativeEvent.pageX,
+            y: event.nativeEvent.pageY
+        };
 
-        // Get the coordinates of the container
-        containerReference.current.measure((x, y, width, height, pageX, pageY) => {
+        // Get the coordinates of the container on the screen
+        containerReference.current.measure((_x, _y, width, height, pageX, pageY) => {
             // Calculate the coordinates relative to the center of the container (based in the screen)
-            const centerX = pageX + width / 2;
-            const centerY = pageY + height / 2;
+            const center = {
+                x: pageX + width / 2,
+                y: pageY + height / 2
+            };
 
             // Calculate the distance from the center of the circle
-            const { x: newX, y: newY } = joystickUtils.normalizeCoordinates(moveX, moveY, centerX, centerY, radius);
-            setJoystickPosition({ x: newX, y: newY });
+            const { x, y } = joystickUtils.normalizeCoordinates(position, center, radius);
+            setPosition({ x, y });
 
-            if (setInfo) setInfo({ moveX, moveY, width, height, pageX, pageY, centerX, centerY, newX, newY });
+            if (setDebug) setDebug({ position, width, height, pageX, pageY, center, x, y });
         });
     }
 
     const handleRelease = () => {
-        setJoystickPosition({ x: 0, y: 0 });
-        if (setInfo) setInfo(null);
+        setPosition({ x: 0, y: 0 });
+        if (setDebug) setDebug(null);
     };
 
-    const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderMove: handleMove,
-        onPanResponderRelease: handleRelease,
-    });
-
-    return { containerReference, joystickPosition, panResponder, info };
+    return {
+        position,
+        debug,
+        render: {
+            ref: containerReference,
+            onStartShouldSetResponder: () => true,
+            onResponderMove: handleMove,
+            onResponderRelease: handleRelease
+        }
+    };
 }
