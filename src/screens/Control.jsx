@@ -13,9 +13,7 @@ export default function Control() {
     return (
         <View style={styles.container}>
             <View style={styles.section}>
-                {/*<ControlLever />*/}
-                <JoyStick size={200} color={COLORS.SECONDARY} />
-
+                <ControlLever />
             </View>
 
             <View style={[styles.section, { backgroundColor: COLORS.SECONDARY }]}>
