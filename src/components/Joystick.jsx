@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { useJoystick } from '@/hooks';
 
@@ -6,13 +6,16 @@ export default function Joystick({
     radius = 100,
     color = '#000',
     addDebug = false,
+    onMove = () => { },
 }) {
     const { position, debug, render } = useJoystick(radius, addDebug);
     const styles = useMemo(() => generateStyles(radius, color), [radius, color]);
 
     const movementStyles = useMemo(() => {
-        return { transform: [{ translateX: position.x }, { translateY: position.y }] };
+        return { transform: [{ translateX: position.x }, { translateY: -position.y }] };
     }, [position]);
+
+    useEffect(() => onMove(position), [position]);
 
     return (
         <View style={styles.base} {...render}>
