@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native';
-import JoyStick from '@/components/JoyStick';
+import Joystick from '@/components/Joystick';
 import ControlLever from '@/components/ControlLever';
 import { COLORS } from '@/constants';
 import { motorsUtils } from '@/utils';
@@ -19,7 +19,7 @@ export default function Control() {
             </View>
 
             <View style={[styles.section, { backgroundColor: COLORS.SECONDARY }]}>
-                <JoyStick radius={100} color={COLORS.PRIMARY} onMove={onChangeCoordinantes} />
+                <Joystick radius={100} color={COLORS.PRIMARY} onMove={onChangeCoordinantes} />
             </View>
         </View>
     );
