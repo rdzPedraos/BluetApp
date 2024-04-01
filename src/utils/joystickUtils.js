@@ -11,7 +11,7 @@ function normalizeCoordinates(position, center, radius) {
      * If distance is greater than limitedDistance, the normalized coordinates will be closer to the edge of the circle.
      */
     const newX = (position.x - center.x) * (limitedDistance / distance);
-    const newY = (position.y - center.y) * (limitedDistance / distance);
+    const newY = (position.y - center.y) * (limitedDistance / distance) * -1;
 
     return { x: newX, y: newY, limitedDistance };
 }
