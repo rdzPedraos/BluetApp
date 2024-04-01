@@ -15,7 +15,7 @@ function getMapByVector(vector, radius) {
     if (y > 0) changeInY *= -1;
 
 
-    const aux = 70.72;
+    const aux = 100 / Math.sqrt(2);
     const values = {
         leftUp: 50 + (-changeInX + changeInY) * change / aux,
         leftDown: 50 + (-changeInX - changeInY) * change / aux,
