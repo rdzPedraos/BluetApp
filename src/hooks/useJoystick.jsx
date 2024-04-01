@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { joystickUtils } from '@/utils';
 
-export function useJoystickHook(radius, addDebug = false) {
+export function useJoystick(radius, addDebug = false) {
     const containerReference = useRef();
     const [debug, setDebug] = addDebug ? useState(null) : [null, null];
     const [position, setPosition] = useState({ x: 0, y: 0 });

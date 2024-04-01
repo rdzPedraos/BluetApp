@@ -1,1 +1,1 @@
-export { useJoystickHook } from './useJoystickHook';
+export { useJoystick } from './useJoystick';

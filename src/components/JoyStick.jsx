@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
-import { useJoystickHook } from '@/hooks';
+import { useJoystick } from '@/hooks';
 
 export default function JoyStick({
     radius = 100,
     color = '#000',
     addDebug = false,
 }) {
-    const { position, debug, render } = useJoystickHook(radius, addDebug);
+    const { position, debug, render } = useJoystick(radius, addDebug);
     const styles = useMemo(() => generateStyles(radius, color), [radius, color]);
 
     const movementStyles = useMemo(() => {
