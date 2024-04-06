@@ -30,7 +30,7 @@ export function useJoystick(radius, addDebug = false) {
     }
 
     const handleRelease = () => {
-        setPosition({ x: 0, y: 0 });
+        setTimeout(() => setPosition({ x: 0, y: 0 }), 100);
         if (debug) setDebug(null);
     };
 
