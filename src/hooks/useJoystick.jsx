@@ -3,7 +3,7 @@ import { joystickUtils } from '@/utils';
 
 export function useJoystick(radius, addDebug = false) {
     const containerReference = useRef();
-    const [debug, setDebug] = addDebug ? useState(null) : [null, null];
+    const [debug, setDebug] = useState(null);
     const [position, setPosition] = useState({ x: 0, y: 0 });
 
     const handleMove = (event) => {
@@ -25,13 +25,13 @@ export function useJoystick(radius, addDebug = false) {
             const { x, y } = joystickUtils.normalizeCoordinates(position, center, radius);
             setPosition({ x, y });
 
-            if (setDebug) setDebug({ position, width, height, pageX, pageY, center, x, y });
+            if (addDebug) setDebug({ position, width, height, pageX, pageY, center, x, y });
         });
     }
 
     const handleRelease = () => {
         setPosition({ x: 0, y: 0 });
-        if (setDebug) setDebug(null);
+        if (debug) setDebug(null);
     };
 
     return {
