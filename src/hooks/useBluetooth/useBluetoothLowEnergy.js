@@ -2,21 +2,21 @@ import { useMemo, useState } from "react";
 import { BleManager } from "react-native-ble-plx";
 import { permissions } from "@/utils";
 
-function useBluetoothLowEnergy() {
+export default function useBluetoothClassic() {
     const bleManager = useMemo(() => new BleManager(), []);
+    const [isScannging, setIsScanning] = useState(false);
     const [allDevices, setAllDevices] = useState([]);
     const [connectedDevice, setConnectedDevice] = useState(null);
 
     const scanDevices = async () => {
-        const isPermissionGranted = await permissions.valid();
+        if (isScannging) return;
 
-        if (!isPermissionGranted) {
-            console.log('Permission not granted');
-            return;
-        }
+        const isPermissionGranted = await permissions.valid();
+        if (!isPermissionGranted) throw new Error('Permission not granted');
 
         setAllDevices([]);
-        bleManager.startDeviceScan(null, null, (error, device) => {
+        setIsScanning(true);
+        await bleManager.startDeviceScan(null, null, (error, device) => {
             if (error) {
                 console.error(error);
                 return;
@@ -29,6 +29,7 @@ function useBluetoothLowEnergy() {
 
     const stopScanDevices = () => {
         bleManager.stopDeviceScan();
+        setIsScanning(false);
     }
 
     const connectToDevice = async (device) => {
@@ -52,14 +53,10 @@ function useBluetoothLowEnergy() {
     return {
         allDevices,
         connectedDevice,
+        isScannging,
         scanDevices,
         stopScanDevices,
         connectToDevice,
         disconnectDevice,
     }
 }
-
-
-export {
-    useBluetoothLowEnergy
-};
