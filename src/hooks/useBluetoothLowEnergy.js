@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { BleManager } from "react-native-ble-plx";
 import { permissions } from "@/utils";
 
-function useBLE() {
+function useBluetoothLowEnergy() {
     const bleManager = useMemo(() => new BleManager(), []);
     const [allDevices, setAllDevices] = useState([]);
     const [connectedDevice, setConnectedDevice] = useState(null);
@@ -61,5 +61,5 @@ function useBLE() {
 
 
 export {
-    useBLE
+    useBluetoothLowEnergy
 };
