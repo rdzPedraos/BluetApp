@@ -8,7 +8,7 @@ function useBluetoothLowEnergy() {
     const [connectedDevice, setConnectedDevice] = useState(null);
 
     const scanDevices = async () => {
-        const isPermissionGranted = await permissions.requestPermissions();
+        const isPermissionGranted = await permissions.valid();
 
         if (!isPermissionGranted) {
             console.log('Permission not granted');
