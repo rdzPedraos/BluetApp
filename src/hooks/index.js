@@ -1,2 +1,3 @@
 export { useJoystick } from './useJoystick';
-export { useBluetoothLowEnergy } from './useBluetoothLowEnergy';
+export { useBluetoothClassic } from './useBluetooth/useBluetoothClassic';
+/*export { useBluetoothLowEnergy } from './useBluetooth/useBluetoothLowEnergy';*/
