@@ -1,5 +1,5 @@
 import GameControlScreen from "@/screens/GameControlScreen";
-import ConfigScreen from "@/screens/ConfigScreen";
+import BluetoothConfigScreen from "@/screens/BluetoothConfigScreen";
 import { ICONS } from "@/constants";
 
 const routes = [
@@ -13,7 +13,7 @@ const routes = [
     },
     {
         name: 'BluetoothConfigScreen',
-        component: ConfigScreen,
+        component: BluetoothConfigScreen,
         options: {
             title: "Configuración Bluetooth",
             drawerIcon: ({ color }) => <ICONS name="bluetooth" size={24} color={color} />,

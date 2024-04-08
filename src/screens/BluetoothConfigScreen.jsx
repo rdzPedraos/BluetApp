@@ -1,9 +1,11 @@
 import { Text, View } from "react-native";
 import MainLayout from "@/layouts/MainLayout";
 
-export default function ConfigScreen(props) {
+export default function BluetoothConfigScreen(props) {
+
+
     return (
-        <MainLayout title="Configuración" {...props}>
+        <MainLayout title="Conexión de Bluetooth" {...props}>
             <View style={styles.container}>
                 <Text style={styles.title}>Config</Text>
             </View>
