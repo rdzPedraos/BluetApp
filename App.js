@@ -12,7 +12,6 @@ export default function App() {
     return (
         <NavigationContainer>
             <Drawer.Navigator
-                defaultStatus='open'
                 initialRouteName='BluetoothConfigScreen'
                 screenOptions={{
                     headerShown: false,
