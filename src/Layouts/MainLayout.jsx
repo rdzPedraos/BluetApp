@@ -37,12 +37,15 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
+        paddingTop: 80,
+        paddingHorizontal: 20,
     },
 
     header: {
-        width: '100%',
         position: 'absolute',
         top: 20,
+        left: 0,
+        right: 0,
         zIndex: 999,
 
         flexDirection: 'row',
