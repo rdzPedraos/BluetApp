@@ -32,12 +32,16 @@ export default function BluetoothConfigScreen(props) {
 }
 
 const Item = ({ item }) => {
-    const { device, connectToDevice, disconnectDevice } = useContext(BluetoothContext);
+    const { device, connectToDevice, disconnectDevice, isConnected } = useContext(BluetoothContext);
     const { id, name } = item;
-
     const isActive = id === device?.id;
 
     const toogleBTBtn = () => {
+        if (isConnected && !isActive) {
+            alert("Debes desconectar el dispositivo actual antes de conectar otro");
+            return;
+        };
+
         if (isActive) disconnectDevice(device)
         else connectToDevice(item)
     }
@@ -50,7 +54,10 @@ const Item = ({ item }) => {
             </View>
 
             <TouchableOpacity onPress={toogleBTBtn}>
-                <ICONS style={stylesItem.button} name={isActive ? 'times' : "bluetooth-b"} />
+                {isActive
+                    ? <ICONS size={28} name="close-circle-outline" color="red" />
+                    : <ICONS size={28} name="bluetooth-sharp" color={isConnected ? COLORS.GRAY : COLORS.PRIMARY} />
+                }
             </TouchableOpacity>
         </View>
     );
@@ -86,9 +93,4 @@ const stylesItem = StyleSheet.create({
         fontSize: FONT_SIZES.MEDIUM,
         color: COLORS.GRAY,
     },
-
-    button: {
-        fontSize: 30,
-        color: COLORS.PRIMARY
-    }
 });
