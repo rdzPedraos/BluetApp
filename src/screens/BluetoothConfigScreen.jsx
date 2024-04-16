@@ -12,9 +12,6 @@ export default function BluetoothConfigScreen(props) {
         else disableBT();
     });
 
-    const connectToggle = useCallback((value) => {
-    })
-
     return (
         <MainLayout title="Conexión de Bluetooth" {...props}>
             <View style={stylesList.switch}>

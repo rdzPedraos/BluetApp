@@ -5,14 +5,23 @@ import RNBluetoothClassic from 'react-native-bluetooth-classic';
 export default BluetoothContext = createContext(null);
 
 export const BluetoothProvider = ({ children }) => {
-    const [scanningBT, setScanningBT] = useState(false);
     const [activedBT, setActivedBT] = useState(false);
     const [devices, setDevices] = useState([]);
     const [device, setDevice] = useState(null);
 
     useEffect(() => {
-        console.log("changing device", device);
-    }, [device])
+        RNBluetoothClassic.onDeviceDiscovered((device) => {
+            setDevices((devices) => {
+                if (!devices.find(d => d.id == device.id)) {
+                    return [...devices, {
+                        name: device.name,
+                        id: device.address
+                    }];
+                }
+                return devices;
+            });
+        });
+    }, []);
 
     const enableBT = async () => {
         if (activedBT) return;
@@ -20,40 +29,30 @@ export const BluetoothProvider = ({ children }) => {
         const isPermissionGranted = await permissions.valid();
         if (!isPermissionGranted) throw new Error('Permission not granted');
 
+        RNBluetoothClassic.startDiscovery();
         setActivedBT(true);
-        setScanningBT(true);
-
-        try {
-            const unpaired = await RNBluetoothClassic.startDiscovery();
-            setDevices([...unpaired]);
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setScanningBT(false);
-        }
     }
 
     const disableBT = async () => {
         if (!activedBT) return;
-
         await RNBluetoothClassic.cancelDiscovery();
-        setActivedBT(false);
+        if (device) {
+            disconnectDevice();
+            setDevice(null);
+        }
         setDevices([]);
+        setActivedBT(false);
     }
 
     const connectToDevice = async (newDevice) => {
-        if (device) {
-            await device.disconnect();
-        }
+        if (device) disconnectDevice();
 
-        await newDevice.connect();
-        setDevice(newDevice);
+        const _device = await RNBluetoothClassic.connectToDevice(newDevice.id);
+        setDevice(_device);
     }
 
     const disconnectDevice = async () => {
-        if (!device) return;
-
-        await device.disconnect();
+        await RNBluetoothClassic.disconnectFromDevice(device.id);
         setDevice(null);
     }
 
@@ -63,7 +62,7 @@ export const BluetoothProvider = ({ children }) => {
             return;
         }
 
-        RNBluetoothClassic.writeToDevice(device.address, msj);
+        RNBluetoothClassic.writeToDevice(device.id, msj);
     }
 
     return (
@@ -71,7 +70,6 @@ export const BluetoothProvider = ({ children }) => {
             activedBT,
             devices,
             device,
-            scanningBT,
             enableBT,
             disableBT,
             connectToDevice,
