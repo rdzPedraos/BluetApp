@@ -8,6 +8,7 @@ export const BluetoothProvider = ({ children }) => {
     const [activedBT, setActivedBT] = useState(false);
     const [devices, setDevices] = useState([]);
     const [device, setDevice] = useState(null);
+    const [connecting, setConnecting] = useState(false);
 
     const isConnected = useMemo(() => device !== null, [device]);
 
@@ -49,8 +50,10 @@ export const BluetoothProvider = ({ children }) => {
     const connectToDevice = async (newDevice) => {
         if (device) disconnectDevice();
 
+        setConnecting(newDevice.id);
         const _device = await RNBluetoothClassic.connectToDevice(newDevice.id);
         setDevice(_device);
+        setConnecting(null);
     }
 
     const disconnectDevice = async () => {
@@ -73,6 +76,7 @@ export const BluetoothProvider = ({ children }) => {
             devices,
             device,
             isConnected,
+            connecting,
             enableBT,
             disableBT,
             connectToDevice,
