@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import { permissions } from "@/utils";
 import RNBluetoothClassic from 'react-native-bluetooth-classic';
 
@@ -8,6 +8,8 @@ export const BluetoothProvider = ({ children }) => {
     const [activedBT, setActivedBT] = useState(false);
     const [devices, setDevices] = useState([]);
     const [device, setDevice] = useState(null);
+
+    const isConnected = useMemo(() => device !== null, [device]);
 
     useEffect(() => {
         RNBluetoothClassic.onDeviceDiscovered((device) => {
@@ -70,6 +72,7 @@ export const BluetoothProvider = ({ children }) => {
             activedBT,
             devices,
             device,
+            isConnected,
             enableBT,
             disableBT,
             connectToDevice,
