@@ -24,7 +24,7 @@ export default function MainLayout({ title, navigation, direction = "vertical", 
                 </View>
 
                 <TouchableOpacity onPress={navigation.openDrawer}>
-                    <ICONS name="bars" size={FONT_SIZES.EXTRA_LARGE} />
+                    <ICONS name="menu-sharp" size={FONT_SIZES.EXTRA_LARGE} />
                 </TouchableOpacity>
             </View>
 
