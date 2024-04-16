@@ -1,10 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
+import { useContext } from 'react';
 import { StyleSheet, SafeAreaView, Image, View, TouchableOpacity, Text } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from '@react-navigation/native';
+import BluetoothContext from '@/context/BluetoothContext';
 import { LOGO, ICONS, FONT_SIZES } from '@/constants';
 
 export default function MainLayout({ title, navigation, direction = "vertical", children }) {
+    const { isConnected } = useContext(BluetoothContext);
+
     useFocusEffect(() => {
         const directionLock = direction === "vertical"
             ? ScreenOrientation.OrientationLock.PORTRAIT
@@ -21,6 +25,10 @@ export default function MainLayout({ title, navigation, direction = "vertical", 
                 <View style={styles.title}>
                     <Image source={LOGO} style={styles.titleImg} />
                     <Text style={styles.titleTxt}>{title}</Text>
+                    {isConnected
+                        ? <ICONS name="checkmark-circle" size={24} color="green" />
+                        : <ICONS name="close-circle" size={24} color="red" />
+                    }
                 </View>
 
                 <TouchableOpacity onPress={navigation.openDrawer}>
