@@ -12,27 +12,25 @@ export const BluetoothProvider = ({ children }) => {
 
     const isConnected = useMemo(() => device !== null, [device]);
 
-    useEffect(() => {
-        RNBluetoothClassic.onDeviceDiscovered((device) => {
-            setDevices((devices) => {
-                if (!devices.find(d => d.id == device.id)) {
-                    return [...devices, {
-                        name: device.name,
-                        id: device.address
-                    }];
-                }
-                return devices;
-            });
-        });
-    }, []);
-
     const enableBT = async () => {
         if (activedBT) return;
 
         const isPermissionGranted = await permissions.valid();
         if (!isPermissionGranted) throw new Error('Permission not granted');
 
-        RNBluetoothClassic.startDiscovery();
+        const devices = await RNBluetoothClassic.getBondedDevices();
+        const normalizedDevices = [];
+
+        devices.forEach(device => {
+            if (!normalizedDevices.find(d => d.id == device.id)) {
+                normalizedDevices.push({
+                    name: device.name,
+                    id: device.address
+                });
+            }
+        });
+        
+        setDevices(normalizedDevices);
         setActivedBT(true);
     }
 
