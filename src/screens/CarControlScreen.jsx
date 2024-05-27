@@ -1,7 +1,6 @@
 import { StyleSheet, View } from 'react-native';
 import { useContext, useEffect, useState } from 'react';
 import Joystick from '@/components/Joystick';
-import ControlLever from '@/components/ControlLever';
 import { COLORS } from '@/constants';
 import { motorsUtils } from '@/utils';
 import BluetoothContext from '@/context/BluetoothContext';
@@ -27,7 +26,7 @@ export default function CarControlScreen(props) {
     }
 
     return (
-        <MainLayout title="Mando de control" direction="horizontal" {...props}>
+        <MainLayout title="Mando de carro" {...props}>
             <View style={[styles.container, { backgroundColor: COLORS.SECONDARY }]}>
                 <Joystick radius={100} color={COLORS.PRIMARY} onMove={onChangeCoordinantes} />
             </View>
