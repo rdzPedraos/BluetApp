@@ -12,14 +12,14 @@ const routes = [
             drawerIcon: ({ color }) => <ICONS name="airplane-sharp" size={24} color={color} />,
         }
     },
-    {
+    /*{
         name: "CarControlScreen",
         component: CarControlScreen,
         options: {
             title: "Manubrio para coche",
             drawerIcon: ({ color }) => <ICONS name="car-sport-sharp" size={24} color={color} />,
         }
-    },
+    },*/
     {
         name: 'BluetoothConfigScreen',
         component: BluetoothConfigScreen,
