@@ -1,14 +1,14 @@
 import { StyleSheet, View } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Joystick from '@/components/Joystick';
 import ControlLever from '@/components/ControlLever';
 import { COLORS } from '@/constants';
 import { motorsUtils } from '@/utils';
-import BluetoothContext from '@/context/BluetoothContext';
+import useBluetoothContext from '@/context/BluetoothContext';
 import MainLayout from '@/layouts/MainLayout';
 
 export default function GameControlScreen(props) {
-    const { device, sendByBT } = useContext(BluetoothContext);
+    const { device, sendByBT } = useBluetoothContext();
     const [values, setValues] = useState(null);
 
     useEffect(() => {

@@ -1,13 +1,12 @@
-import { useContext } from 'react';
 import { StyleSheet, SafeAreaView, Image, View, TouchableOpacity, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useFocusEffect } from '@react-navigation/native';
-import BluetoothContext from '@/context/BluetoothContext';
+import useBluetoothContext from '@/context/BluetoothContext';
 import { LOGO, ICONS, FONT_SIZES } from '@/constants';
 
 export default function MainLayout({ title, navigation, direction = "vertical", children }) {
-    const { isConnected } = useContext(BluetoothContext);
+    const { isConnected } = useBluetoothContext();
 
     useFocusEffect(() => {
         const directionLock = direction === "vertical"

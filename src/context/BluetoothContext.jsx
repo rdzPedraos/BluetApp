@@ -1,8 +1,8 @@
-import { createContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { permissions } from "@/utils";
 import RNBluetoothClassic from 'react-native-bluetooth-classic';
 
-export default BluetoothContext = createContext(null);
+const BluetoothContext = createContext(null);
 
 export const BluetoothProvider = ({ children }) => {
     const [activedBT, setActivedBT] = useState(false);
@@ -87,3 +87,5 @@ export const BluetoothProvider = ({ children }) => {
         </BluetoothContext.Provider>
     );
 }
+
+export default useBluetoothContext = () => useContext(BluetoothContext);

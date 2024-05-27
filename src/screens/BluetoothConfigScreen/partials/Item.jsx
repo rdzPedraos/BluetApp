@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { FONT_SIZES, COLORS, ICONS } from "@/constants";
-import BluetoothContext from '@/context/BluetoothContext';
+import useBluetoothContext from '@/context/BluetoothContext';
 
 export default function Item({ item }) {
-    const { device, connectToDevice, disconnectDevice, isConnected, connecting } = useContext(BluetoothContext);
+    const { device, connectToDevice, disconnectDevice, isConnected, connecting } = useBluetoothContext();
     const isActive = item.id === device?.id;
     const isConnecting = item.id === connecting;
     const disabled = (isConnected && !isActive) || connecting;

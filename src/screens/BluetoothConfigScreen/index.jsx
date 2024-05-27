@@ -4,10 +4,10 @@ import { Text, View, Switch, StyleSheet, FlatList } from "react-native";
 import Item from './partials/Item';
 import MainLayout from "@/layouts/MainLayout";
 import { FONT_SIZES, COLORS } from "@/constants";
-import BluetoothContext from '@/context/BluetoothContext';
+import useBluetoothContext from '@/context/BluetoothContext';
 
 export default function BluetoothConfigScreen(props) {
-    const { activedBT, devices, enableBT, disableBT } = useContext(BluetoothContext);
+    const { activedBT, devices, enableBT, disableBT } = useBluetoothContext();
 
     const toggleBTBtn = useCallback((value) => {
         if (value) enableBT();
