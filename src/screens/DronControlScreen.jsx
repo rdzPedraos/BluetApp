@@ -10,17 +10,24 @@ import MainLayout from '@/layouts/MainLayout';
 export default function GameControlScreen(props) {
     const { device, sendByBT } = useBluetoothContext();
     const [values, setValues] = useState(null);
+    const [intensity, setIntensity] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (device && values) sendByBT(JSON.stringify(values) + "\n");
+        const interval = setInterval( () => {
+            if(!device) return;
+
+            const data = {
+                ...values,
+                intensity: intensity/100
+            };
+
+            sendByBT(JSON.stringify(data) + '\n');
         }, 200);
 
-        return () => {
-            clearInterval(interval);
-        }
-    }, [device, values]);
+        return () => clearInterval(interval);
+    }, [device, values, intensity]);
 
+    const onChangeIntensity = (intensity) => setIntensity(intensity);
     const onChangeCoordinantes = (vector) => {
         const values = motorsUtils.getMapByVector(vector, 100);
         setValues(values);
@@ -30,7 +37,7 @@ export default function GameControlScreen(props) {
         <MainLayout title="Mando de control" direction="horizontal" {...props}>
             <View style={styles.container}>
                 <View style={styles.section}>
-                    <ControlLever />
+                    <ControlLever color={COLORS.PRIMARY} value={intensity} onMove={onChangeIntensity} />
                 </View>
 
                 <View style={[styles.section, { backgroundColor: COLORS.SECONDARY }]}>
