@@ -25,7 +25,7 @@ export function useJoystick(radius, addDebug = false) {
             const { x, y } = joystickUtils.normalizeCoordinates(position, center, radius);
             setPosition({ x, y });
 
-            if (addDebug) setDebug({ position, width, height, pageX, pageY, center, x, y });
+            if (addDebug) setDebug({ x, y });
         });
     }
 
