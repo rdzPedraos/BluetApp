@@ -15,6 +15,12 @@ export const BluetoothProvider = ({ children }) => {
     const enableBT = async () => {
         if (activedBT) return;
 
+        const isBluetoothEnabled = await RNBluetoothClassic.isBluetoothEnabled();
+        if (!isBluetoothEnabled) {
+            alert("El Bluetooth debe estar activado para continuar");
+            return;
+        };
+
         const isPermissionGranted = await permissions.valid();
         if (!isPermissionGranted) throw new Error('Permission not granted');
 
