@@ -13,21 +13,16 @@ export default function GameControlScreen(props) {
     const [intensity, setIntensity] = useState(0);
 
     useEffect(() => {
-        const interval = setInterval( () => {
-            if(!device) return;
+        if(!device) return;
 
-            const data = {
-                ...values,
-                intensity: intensity/100
-            };
+        const data = JSON.stringify({
+            ...values,
+            intensity: intensity/100
+        });
 
-            sendByBT(JSON.stringify(data) + '\n');
-        }, 200);
-
-        return () => clearInterval(interval);
+        sendByBT(data+'\n');
     }, [device, values, intensity]);
 
-    const onChangeIntensity = (intensity) => setIntensity(intensity);
     const onChangeCoordinantes = (vector) => {
         const values = motorsUtils.getMapByVector(vector, 100);
         setValues(values);
@@ -37,7 +32,7 @@ export default function GameControlScreen(props) {
         <MainLayout title="Mando de control" direction="horizontal" {...props}>
             <View style={styles.container}>
                 <View style={styles.section}>
-                    <ControlLever color={COLORS.PRIMARY} value={intensity} onMove={onChangeIntensity} />
+                    <ControlLever color={COLORS.PRIMARY} value={intensity} onMove={setIntensity} />
                 </View>
 
                 <View style={[styles.section, { backgroundColor: COLORS.SECONDARY }]}>
